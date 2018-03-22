@@ -48,9 +48,10 @@ class L239D:
 
     def set_pulse(self, pulse):
         #set duty cycle of each pwm
+        print("input pulse : ", pulse)
         dc1 = 0
         dc2 = 0
-        if pulse < 750:
+        if pulse <= 750:
             dc1 = ((750 - pulse) * 100) / float(750)
         if pulse > 750:
             dc2 = ((pulse - 750) * 100) / float(750)
