@@ -87,6 +87,7 @@ class Vehicle():
 
             loop_count = 0
             while self.on:
+                print("running iteration: ", loop_count)
                 start_time = time.time()
                 loop_count += 1
 
@@ -122,7 +123,10 @@ class Vehicle():
                 p = entry['part']
                 #get inputs from memory
                 inputs = self.mem.get(entry['inputs'])
-
+                if hasattr(p, 'name'):
+                    inputs[0] = ((inputs[0] + 1) / 2) * 1500
+                    print("part : ", p)
+                    print("inputs : ", inputs)
                 #run the part
                 if entry.get('thread'):
                     outputs = p.run_threaded(*inputs)

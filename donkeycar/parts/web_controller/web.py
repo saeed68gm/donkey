@@ -93,6 +93,8 @@ class RemoteWebServer():
         data = json.loads(response.text)
         angle = float(data['angle'])
         throttle = float(data['throttle'])
+        #angle=((angle+1)/2)*1500
+        #throttle=((throttle+1)/2)*1500
         drive_mode = str(data['drive_mode'])
         recording = bool(data['recording'])
         
