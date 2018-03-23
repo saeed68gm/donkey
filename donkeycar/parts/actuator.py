@@ -32,11 +32,13 @@ class L239D:
     PWM motor controler using L239D chip.
     This is used for most RC Cars
     '''
-    def __init__(self, in1=7, in2=11, frequency=20):
+    def __init__(self, in1=7, in2=11, frequency=20, isSteering=False):
         import RPi.GPIO as io
+        self.isSteering = isSteering
         io.setmode(io.BOARD)
         self.pin1 = in1
         self.pin2 = in2
+        self.counter = 0
         io.setup(self.pin1, io.OUT)
         io.setup(self.pin2, io.OUT)
         self.pwm1 = io.PWM(self.pin1, True)
@@ -48,19 +50,26 @@ class L239D:
 
     def set_pulse(self, pulse):
         #set duty cycle of each pwm
-        print("input pulse : ", pulse)
+        self.counter += 1
+        if(self.counter % 100 == 1):
+            print("input pulse : ", pulse)
         dc1 = 0
         dc2 = 0
         if pulse <= 750:
             dc1 = ((750 - pulse) * 100) / float(750)
+            if self.isSteering:
+                dc1 = 100
         if pulse > 750:
             dc2 = ((pulse - 750) * 100) / float(750)
+            if self.isSteering:
+                dc2 = 100
         dc1 = max(dc1, 0)
         dc1 = min(dc1, 100)
         dc2 = max(dc2, 0)
         dc2 = min(dc2, 100)
-        print('dc1:',dc1)
-        print('dc2:',dc2)
+        if(self.counter % 100 == 1):
+             print('dc1:',dc1)
+             print('dc2:',dc2)
         self.pwm1.ChangeDutyCycle(dc1)
         self.pwm2.ChangeDutyCycle(dc2)
 

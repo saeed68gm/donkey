@@ -20,6 +20,7 @@ class Vehicle():
         self.parts = []
         self.on = True
         self.threads = []
+        self.counter = 0
 
 
     def add(self, part, inputs=[], outputs=[], 
@@ -87,7 +88,7 @@ class Vehicle():
 
             loop_count = 0
             while self.on:
-                print("running iteration: ", loop_count)
+                ##print("running iteration: ", loop_count)
                 start_time = time.time()
                 loop_count += 1
 
@@ -124,10 +125,15 @@ class Vehicle():
                 #get inputs from memory
                 inputs = self.mem.get(entry['inputs'])
                 if hasattr(p, 'name'):
-                    print("value before : ", inputs[0])
+                    #print("value before : ", inputs[0])
                     #inputs[0] = ((inputs[0] + 1) / 2) * 1500
-                    print("part : ", p)
-                    print("inputs : ", inputs)
+                    #print("part : ", p)
+                    #if loop_count % 10 == 0:
+                    #if(int(time.time()) % 10 == 1):
+                    self.counter = self.counter + 1
+                    if(self.counter % 100 == 1): 
+                        print("Name : ", p.name, "inputs : ", inputs)
+			
                 #run the part
                 if entry.get('thread'):
                     outputs = p.run_threaded(*inputs)
